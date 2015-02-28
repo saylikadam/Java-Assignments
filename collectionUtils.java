@@ -1,20 +1,20 @@
 import java.util.*;
 public class collectionUtils{
-	public static List<Integer> map(List<Integer> list,ListMapper listMapper){
-		List<Integer> result = new ArrayList<Integer>();
-		int index = 0;
-		for(Integer element : list){
-			index = listMapper.mapper(element,index,list);
+	public static <E> List<E> map(List<E> list,ListMapper listMapper){
+		List<E> result = new ArrayList<E>();
+		int i = 0;
+		for(E element : list){
+			E index = (E)listMapper.mapper(element,i,list);
 			result.add(index);
-			index++;
+			i++;
 		} 
 		return result;
 	}
 
-	public static List<Integer> filter(List<Integer> list,ListFilter listFilter){
-		List<Integer> result = new ArrayList<Integer>();
+	public static <E> List<E> filter(List<E> list,ListFilter listFilter){
+		List<E> result = new ArrayList<E>();
 		int index = 0;
-		for(Integer element : list){
+		for(E element : list){
 			boolean flag = listFilter.filter(element,index,list);
 			if(flag){
 				result.add(element);
@@ -24,7 +24,6 @@ public class collectionUtils{
 		return result;
 	}
 }
-
 
 
 
