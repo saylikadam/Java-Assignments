@@ -14,11 +14,11 @@ class IntegerMapping implements ListMapper<Integer>{
 	}
 }
 
-interface ListFilter<Integer>{
-	boolean filter(Integer element , int index,List<Integer> list);
+interface ListFilter<E>{
+	boolean filter(E element , int index,List<E> list);
 }
 
-class evenNoFilter implements ListFilter<Integer>{
+class EvenNoFilter implements ListFilter<Integer>{
 	public boolean filter(Integer element , int index,List<Integer> list){
 		return (element.intValue() % 2 == 0);
 	}
@@ -34,7 +34,7 @@ class IntegerReducer implements ListReducer<Integer,Integer>{
 	}
 }
 
-public class collectionUtilsTest{
+public class CollectionUtilsTest{
 	@Test
 	public void map_returns_integer_list_after_squaring_the_elements_in_the_list(){
 		ListMapper<Integer> listMapper = new IntegerMapping();
@@ -43,7 +43,7 @@ public class collectionUtilsTest{
 		elements.add(20);
 		elements.add(30);
 
-		List<Integer> result = collectionUtils.<Integer>map(elements,listMapper);
+		List<Integer> result = CollectionUtils.<Integer>map(elements,listMapper);
 		assertEquals(result.get(0),(Integer)100);
 		assertEquals(result.get(1),(Integer)400);	
 		assertEquals(result.get(2),(Integer)900);	
@@ -52,13 +52,13 @@ public class collectionUtilsTest{
 
 	@Test
 	public void filter_returns_list_after_checking_elements_are_greater_than_1(){
-		ListFilter<Integer> listFilter = new evenNoFilter();
+		ListFilter<Integer> listFilter = new EvenNoFilter();
 		List<Integer> elements = new ArrayList<Integer>();
 		elements.add(0);
 		elements.add(10);
 		elements.add(20);
 
-		List<Integer> result = collectionUtils.filter(elements,listFilter);
+		List<Integer> result = CollectionUtils.filter(elements,listFilter);
 		assertEquals(result.get(0),(Integer)0);
 	}
 // K reduce(List<E>, ListReducer<E,K>, K initial);
@@ -71,7 +71,7 @@ public class collectionUtilsTest{
 		elements.add(10);
 		elements.add(10);
 		Integer initVal = new Integer(0);
-		Integer result = collectionUtils.<Integer,Integer>reduce(elements,listReducer,initVal);
+		Integer result = CollectionUtils.<Integer,Integer>reduce(elements,listReducer,initVal);
 		assertEquals(result.intValue(),30);
 	}
 }

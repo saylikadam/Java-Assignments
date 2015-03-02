@@ -1,17 +1,17 @@
 import java.util.*;
-public class collectionUtils{
-	public static <E> List<E> map(List<E> list,ListMapper listMapper){
+public class CollectionUtils{
+	public static <E> List<E> map(List<E> list,ListMapper<E> listMapper){
 		List<E> result = new ArrayList<E>();
-		int i = 0;
+		int index = 0;
 		for(E element : list){
-			E index = (E)listMapper.mapper(element,i,list);
-			result.add(index);
-			i++;
+			E res = (E)listMapper.mapper(element,index,list);
+			result.add(res);
+			index++;
 		} 
 		return result;
 	}
 
-	public static <E> List<E> filter(List<E> list,ListFilter listFilter){
+	public static <E> List<E> filter(List<E> list,ListFilter<E> listFilter){
 		List<E> result = new ArrayList<E>();
 		int index = 0;
 		for(E element : list){
