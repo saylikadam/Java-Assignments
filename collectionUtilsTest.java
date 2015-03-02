@@ -3,16 +3,9 @@ import org.junit.Test;
 import java.util.List;
 import static org.junit.Assert.*;
 
-// List<K> map(List<E>, ListMapper<E,K>);
 
-// Figure out what ListMapper should be and what method it should contain. 
-//For this version the map will return a list of any type. 
-
-
-
-
-interface ListMapper <Integer>{
-	Integer mapper(Integer element, int index, List<Integer> list);
+interface ListMapper <E>{
+	public E mapper(E element, int index, List<E> list);
 }
 
 class IntegerMapping implements ListMapper<Integer>{
@@ -28,6 +21,16 @@ interface ListFilter<Integer>{
 class evenNoFilter implements ListFilter<Integer>{
 	public boolean filter(Integer element , int index,List<Integer> list){
 		return (element.intValue() % 2 == 0);
+	}
+}
+
+interface ListReducer <E,K>{
+	public K add(K pv,E element);
+}
+
+class IntegerReducer implements ListReducer<Integer,Integer>{
+	public Integer add(Integer pv,Integer element){
+		return pv.intValue()+element.intValue();
 	}
 }
 
@@ -57,5 +60,18 @@ public class collectionUtilsTest{
 
 		List<Integer> result = collectionUtils.filter(elements,listFilter);
 		assertEquals(result.get(0),(Integer)0);
+	}
+// K reduce(List<E>, ListReducer<E,K>, K initial);
+
+	@Test 
+	public void reduce_returns_list_result_after_adding_elements_in_the_list(){
+		ListReducer<Integer,Integer> listReducer = new IntegerReducer();
+		List<Integer> elements = new ArrayList<Integer>();
+		elements.add(10);
+		elements.add(10);
+		elements.add(10);
+		Integer initVal = new Integer(0);
+		Integer result = collectionUtils.<Integer,Integer>reduce(elements,listReducer,initVal);
+		assertEquals(result.intValue(),30);
 	}
 }

@@ -23,7 +23,17 @@ public class collectionUtils{
 		}
 		return result;
 	}
+
+	public static<E,K> K reduce(List<E> list, ListReducer<E,K> reducer, K initial){
+		K pv = initial;
+		for(E element : list){
+			pv = reducer.add(pv,element);
+		}
+		return pv;
+	}
 }
+
+// K reduce(List<E>, ListReducer<E,K>, K initial);
 
 
 
